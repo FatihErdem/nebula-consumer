@@ -1,6 +1,5 @@
 package com.nebula.reviewconsumer.config;
 
-import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,35 +16,7 @@ public class RabbitConfig implements RabbitListenerConfigurer {
 
 	public static final String REVIEW_CREATED_QUEUE = "review-created-queue";
 
-	public static final String QUEUE_DEAD_REVIEWS = "dead-review-created-queue";
-
-	public static final String EXCHANGE_REVIEW_CREATED = "review-created-exchange";
-
-	@Bean
-	Queue ordersQueue() {
-
-		return QueueBuilder
-				.durable(REVIEW_CREATED_QUEUE)
-				.withArgument("x-dead-letter-exchange", "")
-				.withArgument("x-dead-letter-routing-key", QUEUE_DEAD_REVIEWS)
-				.withArgument("x-message-ttl", 60000)
-				.build();
-	}
-
-	@Bean
-	Queue deadLetterQueue() {
-		return QueueBuilder.durable(QUEUE_DEAD_REVIEWS).build();
-	}
-
-	@Bean
-	Exchange ordersExchange() {
-		return ExchangeBuilder.topicExchange(EXCHANGE_REVIEW_CREATED).build();
-	}
-
-	@Bean
-	Binding binding(Queue ordersQueue, TopicExchange ordersExchange) {
-		return BindingBuilder.bind(ordersQueue).to(ordersExchange).with(EXCHANGE_REVIEW_CREATED);
-	}
+	public static final String REVIEW_UPDATED_QUEUE = "review-updated-queue";
 
 	@Bean
 	public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
