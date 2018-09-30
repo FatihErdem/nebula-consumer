@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 class ReviewFilterImpl implements ReviewFilter {
 
-	private static final String INAPPROPRIATE_WORD = "f_word";
+	private static final String INAPPROPRIATE_WORD = "virus";
 
 	@Override
 	public Boolean isCommentApproved(CreateReviewDto dto) {
